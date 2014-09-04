@@ -316,10 +316,11 @@ static void genMonitorExit(CompilationUnit *cUnit, MIR *mir)
             LW_LOCK_OWNER_SHIFT - 1);
 #ifndef WITH_QC_PERF
     opRegRegRegShift(cUnit, kOpSub, r2, r2, r3, encodeShift(kArmLsl, LW_LOCK_OWNER_SHIFT)); // Align owner
-#endif
+#else
     SET_CCODE;
     opRegReg(cUnit, kOpSub, r2, r3);
     UNSET_CCODE;
+#endif
     hopBranch = opCondBranch(cUnit, kArmCondNe);
     dvmCompilerGenMemBarrier(cUnit, kISH);
     storeWordDisp(cUnit, r1, offsetof(Object, lock), r7);
@@ -475,6 +476,7 @@ static void genMultiplyByTwoBitMultiplier(CompilationUnit *cUnit,
     }
 }
 
+#ifndef WITH_QC_PERF
 static void genMultiplyByShiftAndReverseSubtract(CompilationUnit *cUnit,
         RegLocation rlSrc, RegLocation rlResult, int lit)
 {
@@ -624,3 +626,4 @@ static void genArrayPut(CompilationUnit *cUnit, MIR *mir, OpSize size,
         HEAP_ACCESS_SHADOW(false);
     }
 }
+#endif
