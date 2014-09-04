@@ -459,6 +459,7 @@ static bool addNewHeap(HeapSource *hs)
                   overhead, hs->maximumSize);
         return false;
     }
+<<<<<<< HEAD
 
     if(lowmem) {
         heap.maximumSize = hs->growthLimit - overhead;
